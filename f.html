@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How did we do?</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Private feedback for a job well — or almost — done.">
+<link rel="icon" type="image/png" href="/favicon.png">
+<style>
+:root{--bg:#0c0c0e;--ink:#f2efe8;--muted:#b5b0a4;--faint:#8a8578;--gold:#f2c14e;--line:#24241f;--card:#141410}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;display:flex;min-height:100vh;flex-direction:column}
+main{max-width:520px;width:100%;margin:0 auto;padding:40px 18px;flex:1;text-align:center}
+img.mark{width:84px;height:84px;border-radius:50%;border:3px solid rgba(242,193,78,.6);margin-bottom:18px}
+h1{font-family:Georgia,serif;font-size:clamp(26px,4.5vw,36px);letter-spacing:-.01em;margin-bottom:8px}
+p.sub{color:var(--muted);margin-bottom:26px}
+.stars{display:flex;justify-content:center;gap:8px;margin:6px 0 22px}
+.stars button{font-size:44px;background:none;border:0;cursor:pointer;color:#3a382e;transition:transform .1s,color .1s;padding:4px}
+.stars button.on{color:var(--gold)}
+.stars button:active{transform:scale(1.2)}
+textarea{width:100%;background:#1a1a16;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px 14px;font:inherit;font-size:15px;min-height:110px;resize:vertical}
+textarea:focus{outline:1px solid var(--gold)}
+.btn{display:inline-block;padding:13px 22px;min-height:48px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:#1d1d18;cursor:pointer;font-family:inherit}
+.btn.primary{background:var(--gold);color:#191405;border-color:var(--gold)}
+#fb{display:none;margin-top:6px}
+.glink{display:inline-block;margin-top:20px;color:var(--faint);font-size:13.5px}
+.ok{display:none;text-align:center}
+.ok .big{font-size:44px;margin-bottom:8px}
+footer{padding:18px;text-align:center;color:var(--faint);font-size:12.5px}
+</style>
+</head>
+<body>
+<main id="m">
+  <img class="mark" src="/mascot.png" alt="">
+  <h1 id="q">How did we do?</h1>
+  <p class="sub" id="sub">Tap a star. Honest is perfect.</p>
+  <div class="stars" id="stars"></div>
+  <div id="fb">
+    <p class="sub" style="margin-bottom:12px">Tell us what went wrong — we'd rather hear it than read it on Google.</p>
+    <textarea id="msg" placeholder="What happened, and what would have made it right?"></textarea>
+    <p style="margin-top:14px"><button class="btn primary" id="send">Send privately</button></p>
+  </div>
+  <div class="ok" id="ok"><div class="big">💛</div><h1>Thank you.</h1><p class="sub" style="margin-top:8px">Your message is on its way to the owner — a human will read it.</p></div>
+  <a class="glink" id="gdirect" href="#" style="display:none">or leave a public Google review instead</a>
+</main>
+<footer>Powered by <a href="https://review.leonlink.net" style="color:var(--faint)">Reviewline</a></footer>
+<script>
+const p = new URLSearchParams(location.search);
+const G = p.get('g') || '', TO = p.get('to') || '', BIZ = p.get('b') || 'us';
+if (BIZ !== 'us') { document.getElementById('q').textContent = 'How did ' + BIZ + ' do?'; document.title = 'How did ' + BIZ + ' do?'; }
+let stars = 0;
+const box = document.getElementById('stars');
+for (let i = 1; i <= 5; i++) {
+  const b = document.createElement('button');
+  b.textContent = '★'; b.setAttribute('aria-label', i + ' stars');
+  b.onclick = () => { stars = i; paint(); after(); };
+  box.appendChild(b);
+}
+function paint(){ [...box.children].forEach((b, i) => b.classList.toggle('on', i < stars)); }
+function after(){
+  if (stars >= 4 && G) { location.href = G; return; }
+  document.getElementById('fb').style.display = 'block';
+  document.getElementById('fb').scrollIntoView({ behavior:'smooth' });
+}
+if (G) { const g = document.getElementById('gdirect'); g.style.display = 'inline-block'; g.href = G; }
+document.getElementById('send').onclick = () => {
+  const msg = document.getElementById('msg').value.trim() || '(no details)';
+  const body = 'Private feedback from the Reviewline funnel\n\nStars: ' + stars + '/5\n\n' + msg;
+  if (TO) location.href = 'mailto:' + TO + '?subject=' + encodeURIComponent('Private feedback — ' + stars + ' stars') + '&body=' + encodeURIComponent(body);
+  for (const el of ['stars','fb','sub','q']) document.getElementById(el).style.display = 'none';
+  document.getElementById('ok').style.display = 'block';
+  const g = document.getElementById('gdirect'); if (G && g) g.style.display = 'inline-block';
+};
+</script>
+</body>
+</html>
