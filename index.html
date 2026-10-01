@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reviewline — Google review requests on autopilot. $5 flat.</title>
+<meta name="description" content="Reviewline turns every finished job into a 5-star Google review: automatic review requests, happy customers to Google, unhappy ones to private feedback first. Flat $5/mo, no per-user fees, no add-ons — Jobber charges $39/mo extra for this.">
+<meta property="og:title" content="Reviewline — Google review requests on autopilot. $5 flat.">
+<meta property="og:description" content="Automatic Google review requests for small business. Happy customers go to Google, unhappy ones go to you first. Flat $5/mo — Jobber charges $39/mo extra.">
+<meta property="og:image" content="/og.png">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+:root{--bg:#0c0c0e;--ink:#f2efe8;--muted:#b5b0a4;--faint:#8a8578;--gold:#f2c14e;--line:#24241f;--card:#141410}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--gold)}
+.wrap{max-width:1000px;margin:0 auto;padding:0 18px}
+header{position:sticky;top:0;background:rgba(12,12,14,.92);border-bottom:1px solid var(--line);backdrop-filter:blur(8px);z-index:5}
+.bar{display:flex;align-items:center;gap:12px;height:56px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
+.brand img{width:30px;height:30px;border-radius:50%}
+.nav-links{margin-left:auto;display:flex;gap:18px;align-items:center;font-size:14px}
+.nav-links a{color:var(--muted);text-decoration:none}
+.nav-links a.hh{color:var(--gold);font-weight:700}
+@media(max-width:640px){.nav-links a:not(.hh){display:none}}
+.hero{padding:56px 0 40px;text-align:center}
+.hero img.big{width:120px;height:120px;border-radius:50%;border:3px solid rgba(242,193,78,.6);margin-bottom:22px}
+h1{font-family:Georgia,'Times New Roman',serif;font-size:clamp(30px,5.4vw,50px);line-height:1.12;letter-spacing:-.02em;max-width:20ch;margin:0 auto 16px}
+h1 em{color:var(--gold);font-style:normal}
+.lede{color:var(--muted);max-width:44em;margin:0 auto 26px;font-size:17px}
+.btn{display:inline-block;padding:13px 22px;min-height:48px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;border:1px solid var(--line);color:var(--ink)}
+.btn.primary{background:var(--gold);color:#191405;border-color:var(--gold)}
+.btn+.btn{margin-left:10px}
+@media(max-width:560px){.btn+.btn{margin-left:0;margin-top:10px}}
+.trust{display:flex;gap:22px;justify-content:center;flex-wrap:wrap;color:var(--faint);font-size:13.5px;margin-top:22px}
+section{padding:46px 0}
+h2{font-family:Georgia,serif;font-size:clamp(24px,3.4vw,34px);text-align:center;margin-bottom:12px;letter-spacing:-.01em}
+.sub{text-align:center;color:var(--muted);max-width:46em;margin:0 auto 30px}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:760px){.grid{grid-template-columns:repeat(3,1fr);gap:16px}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px}
+.card h3{font-size:16px;margin-bottom:8px;color:var(--gold)}
+.card p{color:var(--muted);font-size:14.5px}
+.pricecard{max-width:460px;margin:0 auto;text-align:center;background:var(--card);border:1px solid rgba(242,193,78,.45);border-radius:14px;padding:34px 26px}
+.price{font-family:Georgia,serif;font-size:56px;color:var(--gold);line-height:1}
+.price span{font-size:16px;color:var(--muted);font-family:inherit}
+.strike{text-decoration:line-through;color:var(--faint)}
+.fine{color:var(--faint);font-size:13px;margin-top:12px}
+.faq{max-width:640px;margin:0 auto;display:grid;gap:14px}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.faq summary{font-weight:700;cursor:pointer}
+.faq p{color:var(--muted);margin-top:10px;font-size:14.5px}
+footer{border-top:1px solid var(--line);padding:38px 0 46px;color:var(--faint);font-size:13px}
+footer a{color:var(--muted)}
+form{max-width:460px;margin:0 auto;display:grid;gap:10px;text-align:left}
+input,textarea{background:#1a1a16;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px 14px;font:inherit;font-size:16px;min-height:48px}
+.ok{display:none;text-align:center;color:var(--gold);font-weight:700;margin-top:10px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap bar">
+    <div class="brand"><img src="/mascot.png" alt="Reviewline — the boss and the dog"> Reviewline</div>
+    <nav class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#price">Pricing</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://www.leonlink.net" class="hh">Leon Link</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero wrap">
+  <img class="big" src="/mascot.png" alt="The Reviewline crew — girl holding a gold star, pit bull with a star-tag collar">
+  <h1>Every job ends in a review. Make it a <em>five-star</em> one.</h1>
+  <p class="lede">Reviewline asks your happy customers for a Google review at the right moment, the polite way — and gives the unhappy ones somewhere to vent <em>before</em> they hit your star rating. Automatic. Flat price. Jobber charges $39 a month extra for this. We don't.</p>
+  <a class="btn primary" href="#early">Get in the first wave</a>
+  <div class="trust">
+    <span>$5/mo — flat, forever</span>
+    <span>$0 per-user fees</span>
+    <span>$0 add-ons</span>
+    <span>Cancel anytime</span>
+  </div>
+</div>
+
+<section id="how">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="sub">Set your Google review link once. After that, every finished job runs the funnel without you touching anything.</p>
+    <div class="grid">
+      <div class="card"><h3>1 · Job done, ask sent</h3><p>The moment you close a job, your customer gets a short, friendly review request by email or text — from you, not from a robot.</p></div>
+      <div class="card"><h3>2 · Happy? Off to Google</h3><p>Customers who had a good experience tap through straight to your Google review page. That's where five stars come from.</p></div>
+      <div class="card"><h3>3 · Unhappy? You hear it first</h3><p>Had a bad one? They land on a private feedback form instead — you get the chance to fix it before it becomes a one-star public post.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="price">
+  <div class="wrap">
+    <h2>One price. The whole toolbox.</h2>
+    <p class="sub">The review-request feature that Jobber puts behind a $39/mo add-on, and Housecall Pro buries in a higher tier. We built it as the whole product and priced it like a lunch.</p>
+    <div class="pricecard">
+      <div class="price">$5<span>/mo</span></div>
+      <p style="color:var(--muted);margin-top:10px">Unlimited requests · unlimited customers · email + text asks · private feedback funnel · your Google review link · cancel anytime</p>
+      <p class="fine"><span class="strike">$39/mo</span> — what the other guys charge for the same feature</p>
+      <a class="btn primary" href="#early" style="margin-top:18px">Get in the first wave</a>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Fine print? There isn't any.</h2>
+    <div class="faq">
+      <details><summary>Is this a real thing or a waitlist?</summary><p>We're onboarding the first crews now. Drop your email below and you're in line — first wave gets founder pricing locked for life.</p></details>
+      <details><summary>Does asking for reviews actually work?</summary><p>Most happy customers don't review — not because they don't want to, but because nobody asks at the right moment. An automatic ask right after a good job is the single cheapest marketing a small business can do.</p></details>
+      <details><summary>Is the "unhappy goes private" thing ethical?</summary><p>Yes — we never block or filter reviews. Customers can always go straight to Google if they want. We just make sure you hear about problems while you can still fix them. That's called service.</p></details>
+      <details><summary>Who's behind this?</summary><p>Leon Link — a one-person software company that builds flat-price alternatives to overpriced trade software. Same family, same rules: no per-user fees, no add-ons, no lock-in. <a href="https://www.leonlink.net">leonlink.net</a></p></details>
+    </div>
+  </div>
+</section>
+
+<section id="early" style="padding-top:10px">
+  <div class="wrap">
+    <h2>Get in the first wave</h2>
+    <p class="sub">Founder pricing: $5/mo locked for life. No card now.</p>
+    <form id="e-form">
+      <input type="text" id="e-name" placeholder="Your name" required autocomplete="name">
+      <input type="email" id="e-email" placeholder="you@yourbusiness.com" required autocomplete="email">
+      <input type="text" id="e-biz" placeholder="Your business + trade (e.g. Chimney king — sweeps)">
+      <button class="btn primary" style="width:100%;justify-content:center">Save my spot</button>
+      <div class="ok" id="e-ok">You're in. We'll email you when your spot opens.</div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:grid;gap:20px;text-align:center">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:26px;text-align:left">
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">Reviewline</div>
+        <a href="#how" style="display:block;line-height:2">How it works</a>
+        <a href="#price" style="display:block;line-height:2">Pricing</a>
+        <a href="#faq" style="display:block;line-height:2">FAQ</a>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">Leon Link</div>
+        <a href="https://www.leonlink.net" style="display:block;line-height:2">Leon Link — home</a>
+        <a href="https://app.leonlink.net" style="display:block;line-height:2">Ledgerline — field service software</a>
+        <a href="https://blog.leonlink.net" style="display:block;line-height:2">No Sacred Cows — the blog</a>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">Compare</div>
+        <span style="display:block;line-height:2">vs Jobber's $39/mo review add-on</span>
+        <span style="display:block;line-height:2">vs Housecall Pro review gating</span>
+        <a href="mailto:info@leonlink.net" style="display:block;line-height:2">info@leonlink.net</a>
+      </div>
+    </div>
+    <div style="line-height:1.7;max-width:720px;margin:0 auto">Reviewline is Google review automation for small business — automatic review requests, private feedback funnel, five-star reputation management for chimney sweeps, HVAC, plumbing, contractors, restaurants, salons and local service businesses. Flat price, no per-user fees, no add-ons.</div>
+    <div>© 2026 Leon Link · every creation stars the same two, chained to whatever system they run next · Jobber and Housecall Pro are trademarks of their respective owners, used for comparison only</div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('e-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  var g=function(id){return document.getElementById(id).value.trim()};
+  var s='[Reviewline first wave] '+g('e-name')+(g('e-biz')?' — '+g('e-biz'):'');
+  location.href='mailto:info@leonlink.net?subject='+encodeURIComponent(s)+'&body='+encodeURIComponent('Save my spot at $5/mo founder pricing.\n\n— '+g('e-name')+' ('+g('e-email')+')'+(g('e-biz')?'\n'+g('e-biz'):''));
+  document.getElementById('e-ok').style.display='block';
+});
+</script>
+</body>
+</html>
