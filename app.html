@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reviewline — the app</title>
+<meta name="description" content="Reviewline's app: contacts, review-gate funnel links, email + text ask templates, QR kits and CSV export. Flat price, no per-user fees.">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+:root{--bg:#0c0c0e;--ink:#f2efe8;--muted:#b5b0a4;--faint:#8a8578;--gold:#f2c14e;--line:#24241f;--card:#141410}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font:16px/1.6 -apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--gold)}
+.wrap{max-width:1000px;margin:0 auto;padding:0 16px}
+header{position:sticky;top:0;background:rgba(12,12,14,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(8px);z-index:5}
+.bar{display:flex;align-items:center;gap:14px;height:56px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:16px;text-decoration:none;color:var(--ink)}
+.brand img{width:28px;height:28px;border-radius:50%}
+.tabs{margin-left:auto;display:flex;gap:4px;overflow-x:auto}
+.tabs button{background:none;border:0;color:var(--muted);font:inherit;font-size:14px;font-weight:600;padding:8px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.tabs button.on{color:#191405;background:var(--gold)}
+main{padding:24px 0 70px}
+h1{font-family:Georgia,serif;font-size:clamp(22px,3.4vw,30px);letter-spacing:-.01em;margin-bottom:4px}
+.sub{color:var(--muted);font-size:14px;margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:14px}
+label{display:block;font-size:12.5px;font-weight:700;color:var(--faint);margin:10px 0 5px;text-transform:uppercase;letter-spacing:.05em}
+input,textarea{width:100%;background:#1a1a16;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:11px 13px;font:inherit;font-size:15px}
+textarea{min-height:96px;resize:vertical}
+input:focus,textarea:focus{outline:1px solid var(--gold)}
+.btn{display:inline-block;padding:11px 18px;border-radius:10px;font-weight:700;font-size:14.5px;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:#1d1d18;cursor:pointer}
+.btn.primary{background:var(--gold);color:#191405;border-color:var(--gold)}
+.btn.small{padding:7px 12px;font-size:13px;min-height:36px}
+.btn+.btn{margin-left:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.contact{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.contact:last-child{border-bottom:0}
+.contact .who{flex:1;min-width:180px}
+.contact .who b{display:block;font-size:15px}
+.contact .who span{color:var(--faint);font-size:12.5px}
+.badge{font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:20px;background:#1f2a1a;color:#b7d98a;border:1px solid #2e3d24}
+.badge.warn{background:#2a2013;color:#e8b96a;border-color:#3d2f1a}
+.badge.stale{background:#2a1a1a;color:#d98a8a;border-color:#3d2424}
+.empty{text-align:center;padding:40px 16px;color:var(--muted)}
+.linkbox{background:#1a1a16;border:1px dashed var(--line);border-radius:10px;padding:11px 13px;font-size:13px;color:var(--gold);word-break:break-all;flex:1;min-width:200px}
+.stat{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.stat .card{flex:1;min-width:110px;text-align:center;padding:14px;margin-bottom:0}
+.stat .n{font-family:Georgia,serif;font-size:30px;color:var(--gold)}
+.stat .t{font-size:12px;color:var(--faint);text-transform:uppercase;letter-spacing:.06em}
+#qrbox{text-align:center;padding:14px}
+#qrbox img{width:180px;height:180px;image-rendering:pixelated;background:#fff;padding:10px;border-radius:10px}
+.faint{color:var(--faint);font-size:12.5px}
+.ok{color:#b7d98a;font-size:13px;font-weight:700}
+@media print{header,.noprint{display:none}body{background:#fff;color:#000}.card{border-color:#ccc}#qrbox img{background:#fff}}
+</style>
+</head>
+<body>
+<header><div class="wrap bar">
+  <a class="brand" href="/"><img src="/mascot.png" alt="">Reviewline</a>
+  <nav class="tabs">
+    <button data-tab="contacts" class="on">Contacts</button>
+    <button data-tab="funnel">Funnel &amp; QR</button>
+    <button data-tab="templates">Templates</button>
+    <button data-tab="export">Export</button>
+  </nav>
+</div></header>
+<main class="wrap" id="view"></main>
+
+<script src="/qrcode.min.js"></script>
+<script>
+const DEF_E_SUB = 'Thank you for choosing {biz}!';
+const DEF_E_BODY = 'Hi {name},\n\nThanks again for having us out today. If you have 30 seconds, a quick Google review makes a huge difference for a small crew like ours:\n\n{link}\n\nAnd if anything wasn\'t right, just reply to this email — we want to hear it first.\n\n— {biz}';
+const DEF_S = 'Hi {name}, thanks for choosing {biz}! Mind leaving a quick Google review? Takes 30 seconds: {link}';
+const QR_DAYS = 14;
+
+let S = load();
+function load(){ try { return JSON.parse(localStorage.getItem('rl-app')) || fresh(); } catch(e){ return fresh(); } }
+function fresh(){ return { setup:{biz:'',google:'',email:'',esub:DEF_E_SUB,ebody:DEF_E_BODY,sbody:DEF_S}, contacts:[], log:[] }; }
+function save(){ localStorage.setItem('rl-app', JSON.stringify(S)); }
+const esc = s => String(s||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const view = document.getElementById('view');
+let tab = 'contacts';
+
+function funnelLink(){
+  const g = encodeURIComponent(S.setup.google||''), to = encodeURIComponent(S.setup.email||''), b = encodeURIComponent(S.setup.biz||'');
+  return 'https://review.leonlink.net/f?g='+g+'&to='+to+'&b='+b;
+}
+function fill(tpl, c){
+  return String(tpl||'').replaceAll('{name}', c ? (c.name.split(' ')[0]||c.name) : '{name}').replaceAll('{biz}', S.setup.biz||'{biz}').replaceAll('{link}', funnelLink());
+}
+function asked(c){ return S.log.filter(l=>l.cid===c.id); }
+function lastAsk(c){ const a=asked(c); return a.length ? a[a.length-1].ts : 0; }
+function daysSince(ts){ return Math.floor((Date.now()-ts)/86400000); }
+function officeHours(){ const h=new Date().getHours(); return h>=8&&h<19; }
+
+const tabs = {
+  contacts(){ 
+    const recent = S.log.filter(l=>Date.now()-l.ts < 30*86400000).length;
+    const rows = [...S.contacts].sort((a,b)=>lastAsk(b)-lastAsk(a)).map(c=>{
+      const la = lastAsk(c), n = asked(c).length;
+      let badge;
+      if (!la) badge = '<span class="badge stale">never asked</span>';
+      else if (daysSince(la) < QR_DAYS) badge = '<span class="badge">'+daysSince(la)+'d ago</span>';
+      else badge = '<span class="badge warn">asked '+daysSince(la)+'d ago</span>';
+      return `<div class="contact"><div class="who"><b>${esc(c.name)}</b><span>${[c.phone,c.email].filter(Boolean).map(esc).join(' · ')||'no contact info'}</span></div>${badge}
+      <div class="row">
+        ${c.email?`<a class="btn small primary" href="mailto:${esc(c.email)}?subject=${encodeURIComponent(fill(S.setup.esub,c))}&body=${encodeURIComponent(fill(S.setup.ebody,c))}" data-ask="${c.id}">✉ Email ask</a>`:''}
+        ${c.phone?`<a class="btn small primary" href="sms:${esc(c.phone)}?&body=${encodeURIComponent(fill(S.setup.sbody,c))}" data-ask="${c.id}">💬 Text ask</a>`:''}
+        <button class="btn small" data-edit="${c.id}">Edit</button>
+        <button class="btn small" data-del="${c.id}">✕</button>
+      </div></div>`;
+    }).join('');
+    return `<h1>Contacts</h1><p class="sub">Add a customer, tap <b>email ask</b> or <b>text ask</b> — the message opens pre-filled with your funnel link. Reviewline logs the ask so nobody gets nagged twice.</p>
+    <div class="stat">
+      <div class="card"><div class="n">${S.contacts.length}</div><div class="t">contacts</div></div>
+      <div class="card"><div class="n">${recent}</div><div class="t">asks, 30 days</div></div>
+      <div class="card"><div class="n">${S.contacts.filter(c=>{const la=lastAsk(c);return la&&daysSince(la)<QR_DAYS}).length}</div><div class="t">in cooldown</div></div>
+    </div>
+    <div class="card"><div class="row"><input id="c-name" placeholder="Name (required)" style="flex:2;min-width:140px"><input id="c-phone" placeholder="Phone" style="flex:1;min-width:130px"><input id="c-email" type="email" placeholder="Email" style="flex:1;min-width:150px"><button class="btn primary" id="c-add">+ Add</button></div>
+    ${!officeHours()?'<p class="faint" style="margin-top:8px">🌙 Outside office hours — consider sending in the morning. We won\'t stop you.</p>':''}</div>
+    <div class="card">${S.contacts.length?rows:'<div class="empty">No contacts yet.<br>Add your first customer above — or paste a list in the Export tab.</div>'}</div>`;
+  },
+
+  funnel(){
+    const link = funnelLink();
+    const ready = S.setup.google && S.setup.email;
+    return `<h1>Funnel &amp; QR</h1><p class="sub">This is the link your customers land on. Happy ones tap through to Google — unhappy ones tell you first, privately.</p>
+    <div class="card">
+      <label>Your business name</label><input id="s-biz" value="${esc(S.setup.biz)}" placeholder="Chimney king">
+      <label>Your Google review link</label><input id="s-google" value="${esc(S.setup.google)}" placeholder="https://g.page/r/…/review">
+      <p class="faint" style="margin-top:6px">Find it: Google → write a review for your business → copy the address bar link. Or from your Business Profile → "Ask for reviews".</p>
+      <label>Where should private feedback go?</label><input id="s-email" type="email" value="${esc(S.setup.email)}" placeholder="you@yourbusiness.com">
+      <p style="margin-top:12px"><button class="btn primary" id="s-save">Save setup</button> <span class="ok" id="s-ok"></span></p>
+    </div>
+    <div class="card">
+      <label>Your funnel link</label>
+      <div class="row"><div class="linkbox">${esc(link)}</div><button class="btn" id="f-copy">Copy</button></div>
+      ${ready?'':'<p class="faint" style="margin-top:8px">⚠ Add your Google link and feedback email above — until then the funnel only collects private feedback.</p>'}
+      <div id="qrbox"></div>
+      <div class="row noprint" style="justify-content:center">
+        <button class="btn primary" id="qr-dl">Download QR</button>
+        <button class="btn" id="qr-print">Print a QR sheet</button>
+      </div>
+      <p class="faint" style="text-align:center;margin-top:8px">Stick it on invoices, the truck door, the job-site clipboard. Point camera, land on funnel.</p>
+    </div>`;
+  },
+
+  templates(){
+    return `<h1>Templates</h1><p class="sub">Your ask, your voice. Placeholders: <b>{name}</b> first name · <b>{biz}</b> your business · <b>{link}</b> your funnel link.</p>
+    <div class="card">
+      <label>Email subject</label><input id="t-esub" value="${esc(S.setup.esub)}">
+      <label>Email body</label><textarea id="t-ebody" style="min-height:150px">${esc(S.setup.ebody)}</textarea>
+      <label>Text message</label><textarea id="t-sbody">${esc(S.setup.sbody)}</textarea>
+      <p style="margin-top:12px"><button class="btn primary" id="t-save">Save templates</button>
+      <button class="btn" id="t-reset">Reset to defaults</button> <span class="ok" id="t-ok"></span></p>
+      <p class="faint" style="margin-top:10px">Bilingual? Write your Spanish version in a second template and swap it per customer — or keep both in the body.</p>
+    </div>`;
+  },
+
+  export(){
+    const rows = S.contacts.map(c=>{
+      const la = lastAsk(c);
+      return [c.name,c.phone||'',c.email||'', la?new Date(la).toISOString().slice(0,10):'', asked(c).length].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',');
+    });
+    const csv = 'name,phone,email,last_asked,times_asked\n'+rows.join('\n');
+    let pasted = '';
+    return `<h1>Export &amp; backup</h1><p class="sub">Your data lives on this device — that's the privacy promise. Export any time; nothing is locked in.</p>
+    <div class="card">
+      <p style="margin-bottom:12px"><b>CSV export</b> — every contact with ask history. Opens in Excel, Sheets, or Ledgerline.</p>
+      <button class="btn primary" id="x-dl">Download CSV</button>
+      <p class="faint" style="margin-top:10px">${S.contacts.length} contacts · ${S.log.length} logged asks</p>
+    </div>
+    <div class="card">
+      <label>Paste contacts (one per line: name, phone, email)</label>
+      <textarea id="x-paste" placeholder="Jane R., 555-0134, jane@example.com&#10;Bob T., 555-0177"></textarea>
+      <p style="margin-top:10px"><button class="btn primary" id="x-import">Import</button> <span class="ok" id="x-ok"></span></p>
+    </div>`;
+  }
+};
+
+function qrCanvas(url, size){
+  const qr = qrcode(0, 'M'); qr.addData(url); qr.make();
+  const n = qr.getModuleCount(), cell = Math.ceil(size/(n+8)), px = cell*n;
+  const c = document.createElement('canvas'); c.width = c.height = px+cell*8;
+  const x = c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.fillStyle='#000';
+  for (let r=0;r<n;r++) for (let cc=0;cc<n;cc++) if (qr.isDark(r,cc)) x.fillRect(cell*4+cc*cell, cell*4+r*cell, cell, cell);
+  return c;
+}
+
+function render(){
+  view.innerHTML = tabs[tab]();
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on', b.dataset.tab===tab));
+  wire();
+}
+
+function wire(){
+  if (tab==='contacts'){
+    document.getElementById('c-add').onclick = ()=>{
+      const name = document.getElementById('c-name').value.trim();
+      if (!name) return alert('A name is the only required bit.');
+      S.contacts.push({ id: Date.now().toString(36)+Math.random().toString(36).slice(2,6), name, phone: document.getElementById('c-phone').value.trim(), email: document.getElementById('c-email').value.trim() });
+      save(); render();
+    };
+    document.querySelectorAll('[data-ask]').forEach(a=>a.addEventListener('click', ()=>{
+      const c = S.contacts.find(x=>x.id===a.dataset.ask);
+      const la = lastAsk(c);
+      if (la && daysSince(la)<QR_DAYS && !confirm('You asked '+c.name.split(' ')[0]+' '+daysSince(la)+' days ago. Ask again?')) { e.preventDefault(); return; }
+      S.log.push({ cid:c.id, ts:Date.now() }); save(); setTimeout(render, 400);
+    }));
+    document.querySelectorAll('[data-del]').forEach(b=>b.onclick = ()=>{ if (confirm('Remove this contact?')){ S.contacts = S.contacts.filter(x=>x.id!==b.dataset.del); save(); render(); } });
+    document.querySelectorAll('[data-edit]').forEach(b=>b.onclick = ()=>{
+      const c = S.contacts.find(x=>x.id===b.dataset.edit);
+      const name = prompt('Name:', c.name); if (name===null) return;
+      const phone = prompt('Phone:', c.phone); if (phone===null) return;
+      const email = prompt('Email:', c.email); if (email===null) return;
+      Object.assign(c, { name:name.trim()||c.name, phone:phone.trim(), email:email.trim() }); save(); render();
+    });
+  }
+  if (tab==='funnel'){
+    document.getElementById('s-save').onclick = ()=>{
+      S.setup.biz = document.getElementById('s-biz').value.trim();
+      S.setup.google = document.getElementById('s-google').value.trim();
+      S.setup.email = document.getElementById('s-email').value.trim();
+      save(); render(); document.getElementById('s-ok').textContent = 'Saved ✓';
+    };
+    document.getElementById('f-copy').onclick = e=>{ navigator.clipboard.writeText(funnelLink()).then(()=>{ e.target.textContent='Copied!'; setTimeout(()=>{e.target.textContent='Copy'; render();},1200); }); };
+    const box = document.getElementById('qrbox');
+    try { box.appendChild(qrCanvas(funnelLink(), 400)); } catch(err){ box.innerHTML = '<p class="faint">Set up your funnel to generate the QR.</p>'; }
+    document.getElementById('qr-dl').onclick = ()=>{
+      const a = document.createElement('a'); a.download = 'reviewline-qr.png'; a.href = qrCanvas(funnelLink(), 800).toDataURL('image/png'); a.click();
+    };
+    document.getElementById('qr-print').onclick = ()=>window.print();
+  }
+  if (tab==='templates'){
+    document.getElementById('t-save').onclick = ()=>{
+      S.setup.esub = document.getElementById('t-esub').value;
+      S.setup.ebody = document.getElementById('t-ebody').value;
+      S.setup.sbody = document.getElementById('t-sbody').value;
+      save(); document.getElementById('t-ok').textContent = 'Saved ✓';
+    };
+    document.getElementById('t-reset').onclick = ()=>{
+      S.setup.esub = DEF_E_SUB; S.setup.ebody = DEF_E_BODY; S.setup.sbody = DEF_S; save(); render();
+    };
+  }
+  if (tab==='export'){
+    document.getElementById('x-dl').onclick = ()=>{
+      const rows = S.contacts.map(c=>{ const la=lastAsk(c); return [c.name,c.phone||'',c.email||'', la?new Date(la).toISOString().slice(0,10):'', asked(c).length].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','); });
+      const blob = new Blob(['name,phone,email,last_asked,times_asked\n'+rows.join('\n')], {type:'text/csv'});
+      const a = document.createElement('a'); a.download='reviewline-contacts.csv'; a.href=URL.createObjectURL(blob); a.click();
+    };
+    document.getElementById('x-import').onclick = ()=>{
+      const lines = document.getElementById('x-paste').value.split('\n').map(l=>l.trim()).filter(Boolean);
+      let n = 0;
+      for (const line of lines){
+        const p = line.split(',').map(s=>s.trim());
+        if (!p[0]) continue;
+        if (S.contacts.some(c=>c.name===p[0] && c.email===(p[2]||''))) continue;
+        S.contacts.push({ id: Date.now().toString(36)+Math.random().toString(36).slice(2,6), name:p[0], phone:p[1]||'', email:p[2]||'' }); n++;
+      }
+      save(); document.getElementById('x-ok').textContent = n+' imported ✓'; document.getElementById('x-paste').value='';
+    };
+  }
+}
+
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick = ()=>{ tab = b.dataset.tab; render(); });
+if (!S.setup.esub) S = fresh();
+render();
+</script>
+</body>
+</html>
