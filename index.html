@@ -64,8 +64,8 @@ input,textarea{background:#1a1a16;border:1px solid var(--line);color:var(--ink);
     <div class="brand"><img src="/mascot.png" alt="Reviewline — the boss and the dog"> Reviewline</div>
     <nav class="nav-links">
       <a href="#how">How it works</a>
-      <a href="#price">Pricing</a>
-      <a href="#faq">FAQ</a>
+      <a href="#features">Features</a>
+      <a href="#download">Get it</a>
       <a href="https://www.leonlink.net" class="hh">Leon Link</a>
     </nav>
   </div>
@@ -92,6 +92,55 @@ input,textarea{background:#1a1a16;border:1px solid var(--line);color:var(--ink);
       <div class="card"><h3>1 · Job done, ask sent</h3><p>The moment you close a job, your customer gets a short, friendly review request by email or text — from you, not from a robot.</p></div>
       <div class="card"><h3>2 · Happy? Off to Google</h3><p>Customers who had a good experience tap through straight to your Google review page. That's where five stars come from.</p></div>
       <div class="card"><h3>3 · Unhappy? You hear it first</h3><p>Had a bad one? They land on a private feedback form instead — you get the chance to fix it before it becomes a one-star public post.</p></div>
+    </div>
+  </div>
+</section>
+
+
+<section id="features">
+  <div class="wrap">
+    <h2>Everything in the box</h2>
+    <p class="sub">Not a teaser tier — every feature ships with the one price. Here's the whole toolbox, itemized.</p>
+    <div class="grid">
+      <div class="card"><h3>Email + text asks</h3><p>Every finished job triggers a short, friendly review request by email or SMS — from your name, in your voice.</p></div>
+      <div class="card"><h3>Private feedback funnel</h3><p>Unhappy customers land on a private form, not your star rating. You get the complaint while you can still fix it.</p></div>
+      <div class="card"><h3>Smart timing</h3><p>Asks go out the moment a job closes — and never at 9pm. Office-hours sending keeps you polite, automatically.</p></div>
+      <div class="card"><h3>Duplicate protection</h3><p>The same customer never gets asked twice. No nagging, no spam flags, no awkward next visit.</p></div>
+      <div class="card"><h3>Custom templates</h3><p>Write your own ask — once. Plumber voice, salon voice, your grandma's voice. Reviewline sends it word for word.</p></div>
+      <div class="card"><h3>Bilingual asks</h3><p>English and Spanish request templates built in. Ask every customer in the language they answered the door in.</p></div>
+      <div class="card"><h3>QR code kits</h3><p>Printable QR codes for invoices, truck doors and job-site clipboards — point the camera, land on your funnel.</p></div>
+      <div class="card"><h3>Review analytics</h3><p>Requests sent, tap-through rate, reviews gained — tracked month by month, so you know it's paying for itself.</p></div>
+      <div class="card"><h3>Your data, one click</h3><p>Full CSV export of every request and response, any time. No lock-in isn't a slogan, it's a button.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="suite">
+  <div class="wrap">
+    <h2>Or get the whole Line</h2>
+    <p class="sub">Reviewline is one tool in a three-part suite built for the truck, not the boardroom.</p>
+    <div class="pricecard">
+      <div style="font-size:13px;color:var(--faint);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px">Ledgerline Command — the full suite</div>
+      <div class="price">$46.50<span>/mo</span></div>
+      <p style="color:var(--muted);margin-top:14px;font-size:14.5px">Ledgerline <em>(scheduling, estimates, invoicing, card payments, customer portals)</em> + Reviewline <em>(this — the review funnel)</em> + Proofline <em>(before &amp; after photo reports)</em>. All three, one price, whole crew included.</p>
+      <a class="btn primary" href="https://app.leonlink.net/#pricing" style="margin-top:18px">See the full suite</a>
+      <div class="fine">Suite members get Reviewline features first — they're already in the box.</div>
+    </div>
+  </div>
+</section>
+
+<section id="download">
+  <div class="wrap">
+    <h2>Put it on your phone</h2>
+    <p class="sub">No app store, no download size, no updates to babysit. Reviewline installs straight from the browser as an app on your home screen.</p>
+    <div class="grid">
+      <div class="card"><h3>iPhone / iPad</h3><p>Open the app in Safari, tap <strong>Share</strong>, then <strong>Add to Home Screen</strong>. Icon appears like any other app.</p></div>
+      <div class="card"><h3>Android</h3><p>Open the app in Chrome and tap <strong>Install app</strong> when it offers — or menu ⋮ → <strong>Add to Home screen</strong>.</p></div>
+      <div class="card"><h3>Desktop</h3><p>Works in any browser, nothing to install. Bookmark it and go run some jobs.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:20px">
+      <a class="btn primary" href="https://app.leonlink.net">Open the app — Reviewline included</a>
+      <a class="btn" href="https://app.leonlink.net/guide.pdf" style="margin-left:10px">Download the guide (PDF)</a>
     </div>
   </div>
 </section>
@@ -170,6 +219,14 @@ document.getElementById('e-form').addEventListener('submit',function(e){
   location.href='mailto:info@leonlink.net?subject='+encodeURIComponent(s)+'&body='+encodeURIComponent('Save my spot at $5/mo founder pricing.\n\n— '+g('e-name')+' ('+g('e-email')+')'+(g('e-biz')?'\n'+g('e-biz'):''));
   document.getElementById('e-ok').style.display='block';
 });
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"Is this a real thing or a waitlist?","acceptedAnswer":{"@type":"Answer","text":"We're onboarding the first crews now. Drop your email and you're in line — first wave gets founder pricing locked for life."}},
+{"@type":"Question","name":"Does asking for reviews actually work?","acceptedAnswer":{"@type":"Answer","text":"Most happy customers don't review because nobody asks at the right moment. An automatic ask right after a good job is the single cheapest marketing a small business can do."}},
+{"@type":"Question","name":"Is the unhappy-goes-private thing ethical?","acceptedAnswer":{"@type":"Answer","text":"We never block or filter reviews. Customers can always go straight to Google if they want. We just make sure you hear about problems while you can still fix them."}},
+{"@type":"Question","name":"Do I need to install an app?","acceptedAnswer":{"@type":"Answer","text":"No app store needed. Reviewline installs straight from the browser to your home screen as a PWA, and works in any browser."}},
+{"@type":"Question","name":"Who's behind this?","acceptedAnswer":{"@type":"Answer","text":"Leon Link — a one-person software company that builds flat-price alternatives to overpriced trade software. No per-user fees, no add-ons, no lock-in."}}]}
 </script>
 </body>
 </html>
