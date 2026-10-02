@@ -35,15 +35,15 @@ footer{padding:18px;text-align:center;color:var(--faint);font-size:12.5px}
 <main id="m">
   <img class="mark" src="/mascot.png" alt="">
   <h1 id="q">How did we do?</h1>
-  <p class="sub" id="sub">Tap a star. Honest is perfect.</p>
+  <p class="sub" id="sub">Tap a star, then choose what you want to do.</p>
   <div class="stars" id="stars"></div>
   <div id="fb">
-    <p class="sub" style="margin-bottom:12px">Tell us what went wrong — we'd rather hear it than read it on Google.</p>
+    <p class="sub" style="margin-bottom:12px">Every customer gets the same ask. Leave a public review, tell us directly, or both.</p>
     <textarea id="msg" placeholder="What happened, and what would have made it right?"></textarea>
     <p style="margin-top:14px"><button class="btn primary" id="send">Send privately</button></p>
   </div>
   <div class="ok" id="ok"><div class="big">💛</div><h1>Thank you.</h1><p class="sub" style="margin-top:8px">Your message is on its way to the owner — a human will read it.</p></div>
-  <a class="glink" id="gdirect" href="#" style="display:none">or leave a public Google review instead</a>
+  <a class="glink" id="gdirect" href="#" style="display:none">Leave a public Google review</a>
 </main>
 <footer>Powered by <a href="https://review.leonlink.net" style="color:var(--faint)">Reviewline</a></footer>
 <script>
@@ -60,9 +60,15 @@ for (let i = 1; i <= 5; i++) {
 }
 function paint(){ [...box.children].forEach((b, i) => b.classList.toggle('on', i < stars)); }
 function after(){
-  if (stars >= 4 && G) { location.href = G; return; }
-  document.getElementById('fb').style.display = 'block';
-  document.getElementById('fb').scrollIntoView({ behavior:'smooth' });
+  // Everyone gets the same two doors, in the same order. We do not decide who is
+  // allowed to leave a public review based on the star they tapped: withholding the
+  // public ask from less happy customers is review gating, which the FTC treats as a
+  // deceptive practice and Google's policies prohibit.
+  const fb = document.getElementById('fb');
+  fb.style.display = 'block';
+  if (G) { const g = document.getElementById('gdirect'); g.style.display = 'inline-block'; }
+  const pub = document.getElementById('publicFirst');
+  if (pub) pub.style.display = 'block';
 }
 if (G) { const g = document.getElementById('gdirect'); g.style.display = 'inline-block'; g.href = G; }
 document.getElementById('send').onclick = () => {

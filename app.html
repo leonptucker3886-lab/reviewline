@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Reviewline — the app</title>
 <link rel="canonical" href="https://review.leonlink.net/app">
-<meta name="description" content="Reviewline's app: contacts, review-gate funnel links, email + text ask templates, QR kits and CSV export. Flat price, no per-user fees.">
+<meta name="description" content="Reviewline's app: contacts, review request links, email + text ask templates, QR kits and CSV export. Flat price, no per-user fees.">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
@@ -125,7 +125,7 @@ const tabs = {
   funnel(){
     const link = funnelLink();
     const ready = S.setup.google && S.setup.email;
-    return `<h1>Funnel &amp; QR</h1><p class="sub">This is the link your customers land on. Happy ones tap through to Google — unhappy ones tell you first, privately.</p>
+    return `<h1>Funnel &amp; QR</h1><p class="sub">This is the link your customers land on. Every customer sees the same page: the Google review link and a private feedback form, both open to everyone.</p>
     <div class="card">
       <label>Your business name</label><input id="s-biz" value="${esc(S.setup.biz)}" placeholder="Chimney king">
       <label>Your Google review link</label><input id="s-google" value="${esc(S.setup.google)}" placeholder="https://g.page/r/…/review">
